@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap_4.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+    
+    <script type="text/javascript" src="{{ url_for('static', filename='pooper.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootjs.js') }}"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='mine.js') }}"></script>
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+
+    <title>{{ title }}</title>
+
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Store Inventory</a>
+            {% if current_user.is_authenticated %}
+                <a class="navbar-brand mr-4">User: {{ current_user.name }}</a>
+            {% endif %}
+            <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('all_products') }}">All Products</a>
+                <a class="nav-item nav-link" href="{{ url_for('new_product') }}">Add a new product</a>
+                <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Log Out</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+              {% endif %}
+          </div>
+        </div>
+      </nav>
+    </header>
+
+
+
+    <main role="main" class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </main>
+    {% block content %}{% endblock %}
+</body>
+</html>
